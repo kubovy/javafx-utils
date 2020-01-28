@@ -1,3 +1,4 @@
+@file:Suppress("unused")
 package com.poterion.utils.javafx
 
 import javafx.beans.property.BooleanProperty
@@ -38,6 +39,21 @@ fun <T> TreeItem<T>.findAll(predicate: TreeItem<T>.(T) -> Boolean): Collection<T
 	}
 	if (predicate(value)) result.add(this)
 	return result
+}
+
+/**
+ * Find a parent [TreeItem] of this [TreeItem] which satisfies the given `predicate`.
+ *
+ * @author Jan Kubovy [jan@kubovy.eu]
+ * @param predicate Predicate
+ */
+fun <T> TreeItem<T>.findParent(predicate: TreeItem<T>.(T?) -> Boolean): TreeItem<T>? {
+	var current = this
+	while (current.parent != null) {
+		current = current.parent
+		if (current.predicate(current.value)) return current
+	}
+	return null
 }
 
 /**
