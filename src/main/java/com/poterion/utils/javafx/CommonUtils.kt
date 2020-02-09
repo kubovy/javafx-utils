@@ -2,6 +2,7 @@
 package com.poterion.utils.javafx
 
 import com.poterion.utils.kotlin.toUriOrNull
+import com.sun.javafx.PlatformUtil
 import org.slf4j.LoggerFactory
 import java.awt.Desktop
 import java.io.File
@@ -16,16 +17,42 @@ private val desktop
  *
  * @author Jan Kubovy [jan@kubovy.eu]
  */
-fun URI.openInExternalApplication() = desktop?.takeIf { it.isSupported(Desktop.Action.BROWSE) }
+fun URI.openInExternalApplication() {
+	when {
+		PlatformUtil.isLinux() && Runtime.getRuntime().exec(arrayOf("which", "xdg-open")).inputStream.read() != -1 -> {
+			Runtime.getRuntime().exec(arrayOf("xdg-open", this.toString()))
+			return
+		}
+	}
+	desktop?.takeIf { it.isSupported(Desktop.Action.BROWSE) }
 		?.also { it.browse(this) } != null
+}
 
 /**
  * Tries to open an {@link File} in its default application.
  *
  * @author Jan Kubovy [jan@kubovy.eu]
  */
-fun File.openInExternalApplication() = desktop?.takeIf { it.isSupported(Desktop.Action.OPEN) }
+fun File.openInExternalApplication() {
+	when {
+		PlatformUtil.isLinux() -> {
+			if (Runtime.getRuntime().exec(arrayOf("which", "xdg-open")).inputStream.read() != -1) {
+				Runtime.getRuntime().exec(arrayOf("xdg-open", absolutePath))
+				return
+			}
+			if (File("/usr/bin/open").let { it.exists() && it.canExecute() }) {
+				Runtime.getRuntime().exec(arrayOf("/usr/bin/open", absolutePath))
+				return
+			}
+		}
+		PlatformUtil.isWindows() -> {
+			Runtime.getRuntime().exec(arrayOf("rundll32", "url.dll,FileProtocolHandler", absolutePath))
+			return
+		}
+	}
+	desktop?.takeIf { it.isSupported(Desktop.Action.OPEN) }
 		?.also { it.open(this) } != null
+}
 
 /**
  * Tries to open given {@code uri} in default browser or application.
