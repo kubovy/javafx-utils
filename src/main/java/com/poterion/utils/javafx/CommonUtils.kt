@@ -1,3 +1,20 @@
+/******************************************************************************
+ * Copyright (C) 2020 Jan Kubovy (jan@kubovy.eu)                              *
+ *                                                                            *
+ * This program is free software: you can redistribute it and/or modify it    *
+ * under the terms of the GNU Lesser General Public License as published      *
+ * by the Free Software Foundation, either version 3 of the License, or (at   *
+ * your option) any later version.                                            *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful, but        *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                 *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * GNU Lesser General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the GNU Lesser General Public           *
+ * License along with this program.  If not, see                              *
+ * <http://www.gnu.org/licenses/>.                                            *
+ ******************************************************************************/
 @file:Suppress("unused")
 package com.poterion.utils.javafx
 
@@ -25,7 +42,7 @@ fun URI.openInExternalApplication() {
 		}
 	}
 	desktop?.takeIf { it.isSupported(Desktop.Action.BROWSE) }
-		?.also { it.browse(this) } != null
+			?.also { it.browse(this) } != null
 }
 
 /**
@@ -51,7 +68,7 @@ fun File.openInExternalApplication() {
 		}
 	}
 	desktop?.takeIf { it.isSupported(Desktop.Action.OPEN) }
-		?.also { it.open(this) } != null
+			?.also { it.open(this) } != null
 }
 
 /**
@@ -61,6 +78,6 @@ fun File.openInExternalApplication() {
  * @param uri URI to open.
  */
 fun openInExternalApplication(uri: String) = uri.toUriOrNull()
-			?.takeUnless { it.scheme.startsWith("file") }
-			?.openInExternalApplication()
-			?: File(uri).takeIf { it.exists() }?.openInExternalApplication()
+		?.takeUnless { it.scheme.startsWith("file") }
+		?.openInExternalApplication()
+		?: File(uri).takeIf { it.exists() }?.openInExternalApplication()

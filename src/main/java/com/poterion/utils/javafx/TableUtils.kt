@@ -1,10 +1,30 @@
+/******************************************************************************
+ * Copyright (C) 2020 Jan Kubovy (jan@kubovy.eu)                              *
+ *                                                                            *
+ * This program is free software: you can redistribute it and/or modify it    *
+ * under the terms of the GNU Lesser General Public License as published      *
+ * by the Free Software Foundation, either version 3 of the License, or (at   *
+ * your option) any later version.                                            *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful, but        *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                 *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * GNU Lesser General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the GNU Lesser General Public           *
+ * License along with this program.  If not, see                              *
+ * <http://www.gnu.org/licenses/>.                                            *
+ ******************************************************************************/
 @file:Suppress("unused")
 package com.poterion.utils.javafx
 
 import com.sun.javafx.scene.control.skin.TableViewSkin
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.value.ObservableValue
-import javafx.scene.control.*
+import javafx.scene.control.TableCell
+import javafx.scene.control.TableColumn
+import javafx.scene.control.TableRow
+import javafx.scene.control.TableView
 import javafx.scene.control.cell.PropertyValueFactory
 import javafx.scene.input.MouseEvent
 import javafx.util.Callback
@@ -23,7 +43,8 @@ private var columnToFitMethod: Method? = null
 fun TableView<*>.autoFitTable() {
 	if (columnToFitMethod == null) {
 		try {
-			columnToFitMethod = TableViewSkin::class.java.getDeclaredMethod("resizeColumnToFitContent", TableColumn::class.java, Int::class.javaPrimitiveType)
+			columnToFitMethod = TableViewSkin::class.java.getDeclaredMethod(
+					"resizeColumnToFitContent", TableColumn::class.java, Int::class.javaPrimitiveType)
 			columnToFitMethod?.isAccessible = true
 		} catch (e: NoSuchMethodException) {
 			e.printStackTrace()
@@ -93,8 +114,6 @@ fun <S, T> TableColumn<S, T>.cell(property: String? = null,
 	cellValueFactory = PropertyValueFactory(property)
 	cellFactoryInternal(factory)
 }
-
-
 
 /**
  * Sugar for setting a item click handler.

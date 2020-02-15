@@ -1,9 +1,33 @@
+/******************************************************************************
+ * Copyright (C) 2020 Jan Kubovy (jan@kubovy.eu)                              *
+ *                                                                            *
+ * This program is free software: you can redistribute it and/or modify it    *
+ * under the terms of the GNU Lesser General Public License as published      *
+ * by the Free Software Foundation, either version 3 of the License, or (at   *
+ * your option) any later version.                                            *
+ *                                                                            *
+ * This program is distributed in the hope that it will be useful, but        *
+ * WITHOUT ANY WARRANTY; without even the implied warranty of                 *
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the              *
+ * GNU Lesser General Public License for more details.                        *
+ *                                                                            *
+ * You should have received a copy of the GNU Lesser General Public           *
+ * License along with this program.  If not, see                              *
+ * <http://www.gnu.org/licenses/>.                                            *
+ ******************************************************************************/
+@file:Suppress("unused")
+
 package com.poterion.utils.javafx
 
 import com.sun.javafx.scene.control.skin.TableViewSkin
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.value.ObservableValue
-import javafx.scene.control.*
+import javafx.scene.control.TableColumn
+import javafx.scene.control.TreeItem
+import javafx.scene.control.TreeTableCell
+import javafx.scene.control.TreeTableColumn
+import javafx.scene.control.TreeTableRow
+import javafx.scene.control.TreeTableView
 import javafx.scene.control.cell.TreeItemPropertyValueFactory
 import javafx.scene.input.MouseEvent
 import javafx.util.Callback
@@ -22,7 +46,8 @@ private var columnToFitMethod: Method? = null
 fun TreeTableView<*>.autoFitTable() {
 	if (columnToFitMethod == null) {
 		try {
-			columnToFitMethod = TableViewSkin::class.java.getDeclaredMethod("resizeColumnToFitContent", TableColumn::class.java, Int::class.javaPrimitiveType)
+			columnToFitMethod = TableViewSkin::class.java.getDeclaredMethod(
+					"resizeColumnToFitContent", TableColumn::class.java, Int::class.javaPrimitiveType)
 			columnToFitMethod?.isAccessible = true
 		} catch (e: NoSuchMethodException) {
 			e.printStackTrace()
@@ -58,7 +83,8 @@ fun <T> TreeTableView<T>.row(factory: TreeTableRow<T>.(T?) -> Unit) {
 	}
 }
 
-private fun <S, T> TreeTableColumn<S, T>.cellFactoryInternal(factory: (TreeTableCell<S, T>.(S?, T?, Boolean) -> Unit)? = null) {
+private fun <S, T> TreeTableColumn<S, T>.cellFactoryInternal(
+		factory: (TreeTableCell<S, T>.(S?, T?, Boolean) -> Unit)? = null) {
 	if (factory != null) cellFactory = Callback<TreeTableColumn<S, T>, TreeTableCell<S, T>> {
 		object : TreeTableCell<S, T>() {
 			override fun updateItem(item: T?, empty: Boolean) {
@@ -90,7 +116,6 @@ fun <S, T> TreeTableColumn<S, T>.cell(property: String? = null,
 	cellValueFactory = TreeItemPropertyValueFactory(property)
 	cellFactoryInternal(factory)
 }
-
 
 /**
  * Sugar for setting a item click handler.
