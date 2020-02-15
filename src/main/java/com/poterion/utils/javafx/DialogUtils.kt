@@ -40,6 +40,7 @@ fun confirmDialog(title: String,
 				alert.title = title
 				alert.headerText = header ?: title
 				alert.contentText = content
+				alert.isResizable = true
 				alert.buttonTypes.setAll(ButtonType.YES, ButtonType.NO)
 			}
 			.showAndWait()
