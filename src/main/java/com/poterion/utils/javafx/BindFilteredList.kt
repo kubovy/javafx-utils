@@ -74,6 +74,7 @@ class BindFilteredList<E>(source: ObservableList<E>, observable: Observable, var
 	init {
 		observable.addListener { refilter() }
 		filtered = IntArray(source.size * 3 / 2 + 1)
+		refilter()
 	}
 
 	override fun sourceChanged(c: ListChangeListener.Change<out E>) {

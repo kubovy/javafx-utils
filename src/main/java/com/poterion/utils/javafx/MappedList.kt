@@ -47,7 +47,7 @@ class MappedList<F, E>(source: ObservableList<F>, transformation: (F?) -> E?) : 
 
 	override fun sourceChanged(c: ListChangeListener.Change<out F?>) = noop()
 
-	override fun get(index: Int): E? = source[index].let(transformation)
+	override fun get(index: Int): E? = source.getOrNull(index)?.let(transformation)
 
 	override fun getSourceIndex(index: Int): Int = index
 
