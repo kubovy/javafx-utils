@@ -18,7 +18,6 @@
 @file:Suppress("unused")
 package com.poterion.utils.javafx
 
-import com.sun.javafx.scene.control.skin.TableViewSkin
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.value.ObservableValue
 import javafx.scene.control.TableCell
@@ -26,6 +25,7 @@ import javafx.scene.control.TableColumn
 import javafx.scene.control.TableRow
 import javafx.scene.control.TableView
 import javafx.scene.control.cell.PropertyValueFactory
+import javafx.scene.control.skin.TableViewSkin
 import javafx.scene.input.MouseEvent
 import javafx.util.Callback
 import org.slf4j.LoggerFactory
@@ -69,7 +69,7 @@ private fun <S, T> TableColumn<S, T>.cellFactoryInternal(factory: (TableCell<S, 
 		object : TableCell<S, T>() {
 			override fun updateItem(item: T?, empty: Boolean) {
 				super.updateItem(item, empty)
-				factory(tableRow.item as? S, item, empty)
+				factory(tableRow.item, item, empty)
 			}
 		}
 	}

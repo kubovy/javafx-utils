@@ -80,12 +80,10 @@ class BindFilteredList<E>(source: ObservableList<E>, observable: Observable, var
 	override fun sourceChanged(c: ListChangeListener.Change<out E>) {
 		beginChange()
 		while (c.next()) {
-			if (c.wasPermutated()) {
-				permutate(c)
-			} else if (c.wasUpdated()) {
-				update(c)
-			} else {
-				addRemove(c)
+			when {
+				c.wasPermutated() -> permutate(c)
+				c.wasUpdated() -> update(c)
+				else -> addRemove(c)
 			}
 		}
 		endChange()
@@ -112,6 +110,10 @@ class BindFilteredList<E>(source: ObservableList<E>, observable: Observable, var
 		return filtered[index]
 	}
 
+	override fun getViewIndex(index: Int): Int {
+		return Arrays.binarySearch(filtered, 0, size, index)
+	}
+
 	private fun getSortHelper(): SortHelper {
 		if (helper == null) {
 			helper = SortHelper()
@@ -120,12 +122,8 @@ class BindFilteredList<E>(source: ObservableList<E>, observable: Observable, var
 	}
 
 	private fun findPosition(p: Int): Int {
-		if (filtered.size == 0) {
-			return 0
-		}
-		if (p == 0) {
-			return 0
-		}
+		if (filtered.isEmpty() || p == 0) return 0
+		if (p == 0) return 0
 		var pos = Arrays.binarySearch(filtered, 0, size, p)
 		if (pos < 0) {
 			pos = pos.inv()

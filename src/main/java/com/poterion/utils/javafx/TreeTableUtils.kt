@@ -19,16 +19,11 @@
 
 package com.poterion.utils.javafx
 
-import com.sun.javafx.scene.control.skin.TableViewSkin
 import javafx.beans.property.SimpleObjectProperty
 import javafx.beans.value.ObservableValue
-import javafx.scene.control.TableColumn
-import javafx.scene.control.TreeItem
-import javafx.scene.control.TreeTableCell
-import javafx.scene.control.TreeTableColumn
-import javafx.scene.control.TreeTableRow
-import javafx.scene.control.TreeTableView
+import javafx.scene.control.*
 import javafx.scene.control.cell.TreeItemPropertyValueFactory
+import javafx.scene.control.skin.TableViewSkin
 import javafx.scene.input.MouseEvent
 import javafx.util.Callback
 import org.slf4j.LoggerFactory

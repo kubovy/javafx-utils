@@ -49,6 +49,10 @@ class MappedList<F, E>(source: ObservableList<F>, transformation: (F?) -> E?) : 
 
 	override fun get(index: Int): E? = source.getOrNull(index)?.let(transformation)
 
+	override fun getViewIndex(index: Int): Int {
+		return index
+	}
+
 	override fun getSourceIndex(index: Int): Int = index
 
 	override val size: Int
